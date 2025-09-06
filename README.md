@@ -1,12 +1,36 @@
-# React + Vite
+# Conan Game 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Sebuah interaktif berbasis **AI** yang memanfaatkan model **IBM Granite** melalui **Replicate API** untuk memainkan peran sebagai Detektif Conan.
+Proyek ini dibuat sebagai tugas submission **IBM SkillsBuild Bootcamp**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Fitur
+- **Generate Kasus** secara otomatis menggunakan AI.
+- **3 Tersangka** per kasus, lengkap dengan alibi dan petunjuk.
+- **Kuis Interaktif**: pilih siapa pelaku paling mungkin.
+- **Analisis Otomatis**: AI menjelaskan logika di balik jawaban.
+- Dibangun dengan **React + Vite** dan **Tailwind CSS**.
+- Backend menggunakan **Vercel Serverless Function** untuk memanggil **Replicate API**.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠️ Teknologi yang Digunakan
+- **Frontend:** React + Vite + Tailwind CSS
+- **Backend:** Vercel Serverless Function
+- **AI Model:** [IBM Granite Instruct 3.3B (via Replicate)](https://replicate.com/ibm-granite/granite-3.3-8b-instruct)
+- **Deployment:** Vercel
+
+---
+
+## 📦 Instalasi Lokal
+```bash
+# Clone repo
+git clone https://github.com/username/ai-detective-quiz.git
+cd ai-detective-quiz
+
+# Install dependencies
+npm install
+
+# Jalankan di lokal
+npm run dev
