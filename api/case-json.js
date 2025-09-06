@@ -11,14 +11,13 @@ export default async function handler(req, res) {
 
   const body = await readBody(req);
   const userCaseText = body?.caseText?.trim();
-  const isGenerate = !userCaseText; // true = generate full case, false = analyze
+  const isGenerate = !userCaseText;
 
   const prompt = isGenerate
     ? buildGeneratePrompt()
     : buildAnalyzePrompt(userCaseText);
 
   try {
-    // Pakai endpoint model slug (tanpa field "version")
     const create = await fetch(
       "https://api.replicate.com/v1/models/ibm-granite/granite-3.3-8b-instruct/predictions",
       {
@@ -71,9 +70,6 @@ export default async function handler(req, res) {
           parsed,
         });
       }
-      // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-      // PENTING: balikan bentuk yang App.jsx kamu butuhkan (langsung `parsed`)
-      // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
       return res.status(200).json(parsed);
     } else {
       if (!isValidAnalysis(parsed)) {
@@ -97,13 +93,13 @@ function buildGeneratePrompt() {
   return `IKUTI INSTRUKSI INI DENGAN KETAT.
 
 TUJUAN
-- Hasilkan SATU kasus detektif singkat dan logis (bahasa Indonesia) lengkap dengan 3 tersangka.
+- Hasilkan SATU kasus detektif singkat (ID) lengkap 3 tersangka.
 
 ATURAN WAJIB
-- Keluarkan HANYA JSON valid (tanpa teks lain/markdown/\`\`\`/komentar).
+- Keluarkan HANYA JSON valid (tanpa teks lain/markdown/\\\`\\\`\\\`/komentar).
 - Semua string pakai tanda kutip ganda ".
-- "jawaban" HARUS salah satu dari "A","B","C".
-- Buat ringkas, konsisten waktu & tempat.
+- Field "jawaban" HARUS persis SATU huruf kapital dan cocok regex: ^[ABC]$  (BUKAN "A|B" atau "A, C").
+- Buat ringkas dan konsisten waktu & tempat.
 
 FORMAT OUTPUT (WAJIB)
 {
@@ -119,6 +115,12 @@ FORMAT OUTPUT (WAJIB)
   "penjelasan": "2-4 kalimat: kaitkan petunjuk kunci ke pelaku dan bantah alibi lainnya."
 }
 
+CONTOH YANG SALAH
+{ "jawaban": "A|B", "penjelasan": "..." }  <-- TIDAK BOLEH. BUKAN SATU HURUF.
+
+CONTOH YANG BENAR
+{ "jawaban": "C", "penjelasan": "..." }
+
 HASILKAN HANYA JSON SESUAI FORMAT.`;
 }
 
@@ -130,14 +132,20 @@ TUJUAN
 
 ATURAN WAJIB
 - Keluarkan HANYA JSON valid (tanpa teks lain/markdown).
-- "jawaban" HARUS salah satu dari "A","B","C".
-- "penjelasan" 2–4 kalimat, faktual, merujuk ke petunjuk & alibi.
+- "jawaban" HARUS persis SATU huruf kapital dan cocok regex: ^[ABC]$.
+- "penjelasan" 2–4 kalimat, faktual, merujuk petunjuk & alibi.
 
 FORMAT OUTPUT (WAJIB)
 {
   "jawaban": "A|B|C",
   "penjelasan": "alasan singkat 2–4 kalimat"
 }
+
+CONTOH YANG SALAH
+{ "jawaban": "A|B", "penjelasan": "..." }
+
+CONTOH YANG BENAR
+{ "jawaban": "B", "penjelasan": "..." }
 
 KASUS
 ${caseText}

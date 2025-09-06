@@ -15,7 +15,6 @@ export default function App() {
       const res = await fetch("/api/case-json", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        // body: JSON.stringify({ prompt: "opsional prompt custom" }),
       });
       if (!res.ok) throw new Error(await res.text());
       const json = await res.json();
