@@ -100,6 +100,7 @@ ATURAN WAJIB
 - Semua string pakai tanda kutip ganda ".
 - Field "jawaban" HARUS persis SATU huruf kapital dan cocok regex: ^[ABC]$  (BUKAN "A|B" atau "A, C").
 - Buat ringkas dan konsisten waktu & tempat.
+- Semua output dibuat dengan bahasa Indonesia
 
 FORMAT OUTPUT (WAJIB)
 {
