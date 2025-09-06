@@ -12,21 +12,41 @@ export default async function handler(req, res) {
   const body = await readBody(req);
   const userPrompt = body?.prompt;
 
-  const prompt =
-    userPrompt ||
-    `Jawab hanya JSON valid:
+  const prompt = `IKUTI INSTRUKSI INI DENGAN KETAT.
+
+TUJUAN:
+Hasilkan satu kasus detektif singkat dan logis dalam bahasa Indonesia.
+
+ATURAN WAJIB:
+- Keluarkan HANYA JSON mentah (tanpa teks lain, tanpa markdown, tanpa \`\`\`, tanpa komentar).
+- Semua nilai string pakai tanda kutip ganda ".
+- Jangan sisipkan baris baru \\n di dalam nilai string (gunakan kalimat tunggal per field).
+- Jangan gunakan karakter yang tidak valid di JSON.
+- Panjang total tetap ringkas.
+
+BATASAN KONTEN:
+- Hindari kekerasan grafis dan isu sensitif. Gunakan bahasa Indonesia baku.
+
+SPESIFIKASI OUTPUT (HARUS persis sesuai struktur di bawah):
 {
-  "judul": "string",
-  "lokasi": "string",
-  "laporan": "string",
+  "judul": "Judul kasus singkat (maks 60 karakter)",
+  "lokasi": "Kota, Negara (mis. Bandung, Indonesia)",
+  "laporan": "2-4 kalimat: siapa korban, cara/kejadian, waktu perkiraan, dan 1-2 petunjuk kunci yang relevan.",
   "tersangka": [
-    {"id":"A","nama":"string","deskripsi":"string"},
-    {"id":"B","nama":"string","deskripsi":"string"},
-    {"id":"C","nama":"string","deskripsi":"string"}
+    {"id":"A","nama":"Nama lengkap","deskripsi":"1 kalimat: peran/relasi + alibi dengan waktu spesifik + 1 detail yang dapat diverifikasi"},
+    {"id":"B","nama":"Nama lengkap","deskripsi":"1 kalimat: peran/relasi + alibi dengan waktu spesifik + 1 detail yang dapat diverifikasi"},
+    {"id":"C","nama":"Nama lengkap","deskripsi":"1 kalimat: peran/relasi + alibi dengan waktu spesifik + 1 detail yang dapat diverifikasi"}
   ],
-  "jawaban": "A|B|C",
-  "penjelasan": "string"
-}`;
+  "jawaban": "A atau B atau C (huruf besar)",
+  "penjelasan": "2-5 kalimat: jelaskan penalaran yang mengaitkan petunjuk kunci ke pelaku dan membantah alibi tersangka lain secara logis."
+}
+
+KETENTUAN LOGIKA:
+- Pastikan hanya SATU pelaku yang paling mungkin.
+- Petunjuk kunci harus konsisten dengan penjelasan dan membantah alibi tersangka lain.
+- Hindari detail yang tidak relevan atau kebetulan berlebihan.
+
+KELUARKAN HANYA JSON SESUAI STRUKTUR DI ATAS.`;
 
   try {
     // 1) Create prediction
