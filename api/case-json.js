@@ -28,9 +28,6 @@ export default async function handler(req, res) {
   "penjelasan": "string"
 }`;
 
-  const MODEL_VERSION =
-    "57b7f1a6f05047b744af1e673238128f2c256a81e39b75691c28b6d817af7b65";
-
   try {
     // 1) Create prediction
     const create = await fetch(
@@ -42,7 +39,6 @@ export default async function handler(req, res) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          version: MODEL_VERSION,
           input: { prompt, max_tokens: 768, temperature: 0.8 },
         }),
       }
