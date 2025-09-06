@@ -104,7 +104,7 @@ ATURAN WAJIB
 
 FORMAT OUTPUT (WAJIB)
 {
-  "judul": "Judul kasus singkat (maks 60 karakter)",
+  "judul": "Judul kasus",
   "lokasi": "Kota, Negara",
   "laporan": "2-4 kalimat: siapa korban, waktu/kejadian, dan 1-2 petunjuk kunci.",
   "tersangka": [
